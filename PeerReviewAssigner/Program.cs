@@ -5,51 +5,22 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PeerReviewAssignerCode.PeerReviewAssigner.BBCSV;
 
-namespace PeerReviewAssigner
+namespace PeerReviewAssignerCode.PeerReviewAssigner
 {
     class Program
     {
         static void Main(string[] args)
         {
             // load and parse cvs file
-            string filename = @"..\..\" + @"20180405094210_BB-Cou-UUVA-73288_groupmembers.csv";
+            string filename = @"./" + @"20180416075947_BB-Cou-UUVA-73293_groupmembers.csv";
             System.Console.WriteLine("Loading cvs file: " + filename);
-            StreamReader inputReader = new StreamReader(filename);
-
-            List<Student> allStudents = new List<Student>();
-            Dictionary<int, Group> allGroups = new Dictionary<int, Group>();
-            // load students and groups
-            while (!inputReader.EndOfStream)
-            {
-                var line = inputReader.ReadLine();
-
-                if (line != null)
-                {
-                    line = line.Replace("\"", "");
-                    string[] strings = line.Split(new[] { ';', ',' });
-                    // the array contains "Group Code","User Name","Student Id","First Name","Last Name"
-                    string group = strings[0];
-                    string auId = strings[1];
-                    string studentId = strings[2];
-                    string firstName = strings[3];
-                    string lastName = strings[4];
-
-                    // group id is in the format: Lab-Handins_gc_1
-                    var groupIdSplit = @group.Split(new char[] {'_'});
-                    string id = groupIdSplit[groupIdSplit.Length - 1];
-                    int idAsInt = Int32.Parse(id);
-                    if (!allGroups.ContainsKey(idAsInt))
-                    {
-                        allGroups.Add(idAsInt, new Group(idAsInt));
-                    }
-
-                    Student s = new Student(auId, firstName + " " + lastName, idAsInt);
-
-                    allGroups[idAsInt].AddStudent(s);
-                    allStudents.Add(s);
-                }
-            }
+            
+            var bbCsvReader = new BBCSVReader(filename);
+            bbCsvReader.ReadFile();
+            List<Student> allStudents = bbCsvReader.GetStudents();
+            Dictionary<int, Group> allGroups = bbCsvReader.GetGroups();
 
             foreach (var group in allGroups)
             {

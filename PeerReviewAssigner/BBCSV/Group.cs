@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PeerReviewAssigner
+namespace PeerReviewAssignerCode.PeerReviewAssigner.BBCSV
 {
     public class Group
     {

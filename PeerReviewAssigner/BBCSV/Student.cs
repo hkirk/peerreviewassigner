@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PeerReviewAssigner
+namespace PeerReviewAssignerCode.PeerReviewAssigner.BBCSV
 {
     public class Student
     {
@@ -34,6 +34,12 @@ namespace PeerReviewAssigner
             this.Name = name;
         }
 
+        public override string ToString() {
+            return "Name: " + Name + ", auid: " + _auId + ", from group: " + _ownGroup;
+        }
 
+        public string ToCSVString() {
+            return string.Format("{0},{1},{2}", Name, _auId, _ownGroup);
+        }
     }
 }
